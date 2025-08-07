@@ -2,37 +2,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, type FieldErrors } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { z } from 'zod';
 import axios from 'axios';
+import { 
+  loginSchema, 
+  registerSchema, 
+  type LoginFormData, 
+  type RegisterFormData 
+} from '../schemas';
+import type { ErrorResponse } from '../types';
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 interface AuthPageProps {
   isLogin: boolean
 };
-
-interface ErrorResponse {
-  response?: {
-    data?: {
-      message?: string;
-    };
-  };
-}
-
-const loginSchema = z.object({
-  email: z.string().email('Invalid email'),
-  password: z.string().min(6, 'Password must be at least 6 characters').max(36, 'Password must be at most 36 characters'),
-});
-
-const registerSchema = loginSchema.extend({
-  confirmPassword: z.string().min(6, 'Confirm Password is required').max(36, 'Confirm Password must be at most 36 characters'),
-}).refine(data => data.password === data.confirmPassword, {
-  path: ['confirmPassword'],
-  message: 'Passwords do not match',
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
-type RegisterFormData = z.infer<typeof registerSchema>;
 
 function AuthPage({ isLogin }: AuthPageProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
