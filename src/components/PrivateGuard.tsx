@@ -1,19 +1,14 @@
-import type React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-interface PrivateGuardProps {
-  children: React.ReactNode;
-}
-
-function PrivateGuard({ children }: PrivateGuardProps) {
-  const isAuthenticated = localStorage.getItem('token');
+function PrivateGuard() {
+  const token = localStorage.getItem('token');
   const location = useLocation();
 
-  if (!isAuthenticated) {
+  if (!token) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  return children;
+  return <Outlet />;
 }
 
 export default PrivateGuard;

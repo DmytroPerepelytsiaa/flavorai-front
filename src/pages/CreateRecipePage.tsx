@@ -1,7 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { RecipeDifficulty } from '../types/recipes.type';
 import { recipeSchema } from '../schemas';
+import type { ErrorResponse } from '../types';
+import api from '../api/api';
 
 type RecipeFormData = {
   title: string;
@@ -13,15 +17,20 @@ type RecipeFormData = {
 };
 
 function CreateRecipePage() {
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { register, handleSubmit, formState: { errors } } = useForm<RecipeFormData>({
     resolver: zodResolver(recipeSchema),
     defaultValues: { ingredients: '', instructions: '' } 
   });
 
-  const onSubmit = (data: RecipeFormData) => {
-    const recipeToSend = data;
-
-    console.log('Recipe to send:', recipeToSend);
+  const onSubmit = async (data: RecipeFormData) => {
+    try {
+      await api.post('/recipes', data);
+      navigate('your-recipes');
+    } catch (error) {
+      setErrorMessage((error as ErrorResponse).response?.data?.message || 'An error occurred while creating the recipe');
+    }
   };
 
   return (
@@ -119,6 +128,10 @@ function CreateRecipePage() {
         >
           Create Recipe
         </button>
+
+        {errorMessage && (
+          <p className="text-red-600 mt-4 text-center">{errorMessage}</p>
+        )}
       </form>
     </div>
   );

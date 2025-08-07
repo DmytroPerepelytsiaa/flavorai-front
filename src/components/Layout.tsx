@@ -23,7 +23,7 @@ function Layout() {
     };
 
     getUser();
-  });
+  }, []);
 
   return (
     <>

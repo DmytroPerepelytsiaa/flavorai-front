@@ -10,22 +10,22 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PublicGuard />}>
-          <Route index path="/login" element={<AuthPage isLogin={true} />} />
+        <Route element={<PublicGuard />}>
+          <Route path="/login" element={<AuthPage isLogin={true} />} />
           <Route path="/register" element={<AuthPage isLogin={false} />} />
         </Route>
-        <Route path="/" element={
-          <PrivateGuard>
-            <Layout />
-          </PrivateGuard>
-        }>
-          <Route index path="recipes" element={<RecipesPage />} />
-          <Route path="create-recipe" element={<CreateRecipePage />} />
+
+        <Route element={<PrivateGuard />}>
+          <Route element={<Layout />}>
+            <Route path="/recipes" element={<RecipesPage />} />
+            <Route path="/create-recipe" element={<CreateRecipePage />} />
+          </Route>
         </Route>
+
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );
-};
+}
 
 export default App;
