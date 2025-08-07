@@ -23,11 +23,11 @@ function Layout() {
     };
 
     getUser();
-  }, []);
+  }, [navigate]);
 
   return (
     <>
-      <header className='text-[10px] px-5 sm:text-lg sm:px-10 h-16 flex items-center justify-between text-slate-850 shadow-md fixed w-full bg-amber-50'>
+      <header className='z-10 text-[10px] px-5 sm:text-lg sm:px-10 h-16 flex items-center justify-between text-slate-850 shadow-md fixed top-0 w-full bg-amber-50'>
         <Link className='hover:text-amber-700 duration-300 transition-colors' to='/'>FlavorAI</Link>
         <nav>
           <ul className='flex space-x-4'>

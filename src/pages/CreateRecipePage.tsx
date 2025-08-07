@@ -2,9 +2,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RecipeDifficulty } from '../types/recipes.type';
 import { recipeSchema } from '../schemas';
-import type { ErrorResponse } from '../types';
+import { RecipeDifficulty, type ErrorResponse } from '../types';
 import api from '../api/api';
 
 type RecipeFormData = {
@@ -130,7 +129,7 @@ function CreateRecipePage() {
         </button>
 
         {errorMessage && (
-          <p className="text-red-600 mt-4 text-center">{errorMessage}</p>
+          <p className="text-red-500 text-sm mt-2 text-center font-medium">{errorMessage}</p>
         )}
       </form>
     </div>

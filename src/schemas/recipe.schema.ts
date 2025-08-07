@@ -1,5 +1,5 @@
 import z from 'zod';
-import { RecipeDifficulty } from '../types/recipes.type';
+import { RecipeDifficulty } from '../types';
 
 export const recipeSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters').max(90, 'Title must be at most 90 characters'),
