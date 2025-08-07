@@ -24,7 +24,7 @@ function RecipeCard({ recipe, index }: RecipeCardProps) {
           {recipe.instructions}
         </p>
       </div>
-      <img src={imageUrl} className="hidden md:block w-[216px] h-[216px] object-cover rounded-md" />
+      <img src={imageUrl} className="hidden md:block w-full max-w-[216px] h-[216px] object-cover rounded-md" />
     </div>
   );
 };
