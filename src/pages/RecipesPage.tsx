@@ -30,7 +30,7 @@ function RecipesPage({ userRecipes }: RecipesPageProps) {
   );
 
   return (
-    <div className='pt-20 px-10'>
+    <div className='py-20 px-10'>
       <input
         onChange={(e) => setSearchFilter(e.target.value)}
         type="text"
