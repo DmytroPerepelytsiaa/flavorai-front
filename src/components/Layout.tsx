@@ -1,4 +1,8 @@
+import { useEffect } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
+import api from '../api/api';
+
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 function Layout() {
   const navigate = useNavigate();
@@ -7,6 +11,19 @@ function Layout() {
     localStorage.removeItem('token');
     navigate('/login');
   };
+
+  useEffect(() => {    
+    const getUser = async () => {
+      await api
+        .get(`${baseUrl}/users/me`)
+        .catch(() => {
+          localStorage.removeItem('token');
+          navigate('/login');
+        });
+    };
+
+    getUser();
+  });
 
   return (
     <>

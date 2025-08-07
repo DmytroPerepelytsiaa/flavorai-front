@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, type FieldErrors } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import axios from 'axios';
 import { 
   loginSchema, 
   registerSchema, 
@@ -10,8 +9,7 @@ import {
   type RegisterFormData 
 } from '../schemas';
 import type { ErrorResponse } from '../types';
-
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+import api from '../api/api';
 
 interface AuthPageProps {
   isLogin: boolean
@@ -26,7 +24,7 @@ function AuthPage({ isLogin }: AuthPageProps) {
 
   const onSubmit = async (data: LoginFormData | RegisterFormData) => {
     try {
-      const response = await axios.post(`${baseUrl}/users/${isLogin ? 'login' : 'register'}`, data);
+      const response = await api.post(`users/${isLogin ? 'login' : 'register'}`, data);
       const token = response.data;
 
       localStorage.setItem('token', token);
