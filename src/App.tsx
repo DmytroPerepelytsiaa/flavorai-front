@@ -1,10 +1,15 @@
-import { useState } from 'react'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import AuthPage from './pages/AuthPage'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <h1 className='bg-slate-500'>Hello world!</h1>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<AuthPage isLogin={true} />} />
+        <Route path="/register" element={<AuthPage isLogin={false} />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
