@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, type FieldErrors } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { z } from 'zod';
 import axios from 'axios';
 
@@ -9,6 +10,14 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL;
 interface AuthPageProps {
   isLogin: boolean
 };
+
+interface ErrorResponse {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email'),
@@ -26,19 +35,26 @@ type LoginFormData = z.infer<typeof loginSchema>;
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 function AuthPage({ isLogin }: AuthPageProps) {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
   const schema = isLogin ? loginSchema : registerSchema;
 
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData | RegisterFormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data: LoginFormData | RegisterFormData) => {
-    const token = await axios.post(`${baseUrl}/users/${isLogin ? 'login' : 'register'}`, data).then(r => r.data);
-    localStorage.setItem('token', token);
-    navigate('/recipes');
+    try {
+      const response = await axios.post(`${baseUrl}/users/${isLogin ? 'login' : 'register'}`, data);
+      const token = response.data;
+
+      localStorage.setItem('token', token);
+      navigate('/recipes');
+    } catch (err: unknown) {
+      setErrorMessage((err as ErrorResponse)?.response?.data?.message || 'An error occurred');
+    }
   };
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-gray-200">
+    <div className="w-screen h-screen flex items-center justify-center bg-amber-50 px-5">
       <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">
           {isLogin ? 'Login' : 'Register'}
@@ -85,23 +101,27 @@ function AuthPage({ isLogin }: AuthPageProps) {
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 cursor-pointer transition-colors duration-300"
+            className="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 cursor-pointer transition-colors duration-300"
           >
             {isLogin ? 'Log In' : 'Register'}
           </button>
+
+          {errorMessage && (
+            <p className="text-red-500 text-sm mt-2 text-center font-medium">{errorMessage}</p>
+          )}
 
           <div className="text-sm text-center mt-2 font-medium">
             {isLogin ? (
               <>
                 Don't have an account?
-                <Link to="/register" className="text-blue-500 hover:underline block">
+                <Link to="/register" className="text-amber-500 hover:underline block">
                   Register
                 </Link>
               </>
             ) : (
               <>
                 Already have an account?
-                <Link to="/login" className="text-blue-500 hover:underline block">
+                <Link to="/login" className="text-amber-500 hover:underline block">
                   Log In
                 </Link>
               </>
