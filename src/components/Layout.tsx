@@ -10,7 +10,7 @@ function Layout() {
 
   return (
     <>
-      <header className='h-16 flex items-center justify-between px-10 text-slate-850 shadow-md fixed w-full bg-amber-50'>
+      <header className='text-[10px] px-5 sm:text-lg sm:px-10 h-16 flex items-center justify-between text-slate-850 shadow-md fixed w-full bg-amber-50'>
         <Link className='hover:text-amber-700 duration-300 transition-colors' to='/'>FlavorAI</Link>
         <nav>
           <ul className='flex space-x-4'>
@@ -18,7 +18,7 @@ function Layout() {
               <NavLink to='/recipes' className={({ isActive }) => isActive ? 'text-slate-950 font-bold' : 'hover:text-amber-700 transition-colors duration-300'}>Recipes</NavLink>
             </li>
             <li>
-              <NavLink to='/your-recipes' className={({ isActive }) => isActive ? 'text-slate-950 font-bold' : 'hover:text-amber-700 transition-colors duration-300'}>Your Recipe</NavLink>
+              <NavLink to='/your-recipes' className={({ isActive }) => isActive ? 'text-slate-950 font-bold' : 'hover:text-amber-700 transition-colors duration-300'}>Your Recipes</NavLink>
             </li>
             <li>
               <NavLink to='/create-recipe' className={({ isActive }) => isActive ? 'text-slate-950 font-bold' : 'hover:text-amber-700 transition-colors duration-300'}>Create Recipe</NavLink>
@@ -27,7 +27,7 @@ function Layout() {
         </nav>
         <button onClick={logOut} className='cursor-pointer hover:text-amber-700'>Log Out</button>
       </header>
-      <main className='bg-orange-100 h-screen'>
+      <main className='bg-orange-100 min-h-screen'>
         <Outlet />
       </main>
     </>
