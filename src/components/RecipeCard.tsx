@@ -13,12 +13,13 @@ function RecipeCard({ recipe, index }: RecipeCardProps) {
     <div className="flex justify-between gap-8 border border-slate-300 rounded-lg h-64 p-5 pl-10 hover:scale-[1.01] transition-transform duration-500 cursor-pointer bg-white max-w-[1200px] w-full">
       <div className="overflow-hidden">
         <h2 className="text-[30px] truncate max-w-[600px] font-semibold">{recipe.title}</h2>
-        <span className="font-medium text-[16px] mb-4 block text-slate-700">{recipe.ingredients}</span>
-        <p className="font-medium text-[20px] text-slate-700">
+        <span className="font-medium truncate text-base block text-slate-700">{recipe.ingredients}</span>
+        <span className='font-medium truncate text-sm block mb-4'>Recipe from user: {recipe.userEmail}</span>
+        <p className="font-medium base text-slate-700">
           <span className='font-medium text-[22px] text-black'>Description: </span>
           {recipe.description}
         </p>
-        <p className="font-medium text-[20px] text-slate-700">
+        <p className="font-medium text-base text-slate-700">
           <span className='font-medium text-[22px] text-black'>Instructions: </span>
           {recipe.instructions}
         </p>

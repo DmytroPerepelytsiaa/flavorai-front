@@ -11,6 +11,7 @@ export interface Recipe {
   difficulty: RecipeDifficulty;
   ingredients: string;
   instructions: string;
+  userEmail: string;
   createdAt: Date;
   updatedAt: Date;
 }

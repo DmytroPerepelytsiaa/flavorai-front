@@ -17,7 +17,8 @@ function App() {
 
         <Route element={<PrivateGuard />}>
           <Route element={<Layout />}>
-            <Route path="/recipes" element={<RecipesPage />} />
+            <Route path="/recipes" element={<RecipesPage userRecipes={false} />} />
+            <Route path="/your-recipes" element={<RecipesPage userRecipes={true} />} />
             <Route path="/create-recipe" element={<CreateRecipePage />} />
           </Route>
         </Route>

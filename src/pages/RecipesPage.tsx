@@ -3,14 +3,18 @@ import api from '../api/api';
 import type { ErrorResponse, Recipe } from '../types';
 import RecipeCard from '../components/RecipeCard';
 
-function RecipesPage() {
+interface RecipesPageProps {
+  userRecipes: boolean;
+}
+
+function RecipesPage({ userRecipes }: RecipesPageProps) {
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
   useEffect(() => {
     const getRecipes = async () => {
       try {
-        const recipes = await api.get('/recipes').then(res => res.data);
+        const recipes = await api.get(userRecipes ? '/recipes/my' : '/recipes').then(res => res.data);
         setRecipes(recipes);
       } catch (error) {
         setErrorMessage((error as ErrorResponse).response?.data?.message || 'An error occurred while fetching recipes');
@@ -18,7 +22,7 @@ function RecipesPage() {
     };
 
     getRecipes();
-  }, []);
+  }, [userRecipes]);
 
   return (
     <div className='pt-20 px-10'>
